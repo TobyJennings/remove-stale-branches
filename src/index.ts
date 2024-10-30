@@ -46,6 +46,11 @@ async function run(): Promise<void> {
     { required: false }
   );
 
+  const doNotNotifyAuthors = core.getBooleanInput(
+    "do-not-notify-authors",
+    { required: false }
+  );
+
   return removeStaleBranches(octokit, {
     isDryRun,
     repo: github.context.repo,
@@ -60,6 +65,7 @@ async function run(): Promise<void> {
     defaultRecipient,
     ignoreUnknownAuthors,
     ignoreBranchesWithOpenPRs,
+    doNotNotifyAuthors,
   });
 }
 
