@@ -32,4 +32,5 @@ export type Params = {
   ignoreUnknownAuthors: boolean;
   defaultRecipient: string | null;
   ignoreBranchesWithOpenPRs: boolean;
+  doNotNotifyAuthors: boolean;
 };

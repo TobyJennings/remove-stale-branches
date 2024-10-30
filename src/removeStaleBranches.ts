@@ -45,23 +45,23 @@ async function processBranch(
       console.log("-> (doing nothing because of dry run flag)");
       return;
     }
-
-    const commentTag = "stale:" + branch.branchName;
-    return await commitComments.addCommitComments({
-      commentTag,
-      commitSHA: branch.commitId,
-      commentBody: TaggedCommitComments.formatCommentMessage(
-        params.staleCommentMessage,
-        branch,
-        params,
-        params.repo
-      ),
-    });
+    if (!params.doNotNotifyAuthors && params.daysBeforeBranchDelete !== 0) {
+      const commentTag = "stale:" + branch.branchName;
+      return await commitComments.addCommitComments({
+        commentTag,
+        commitSHA: branch.commitId,
+        commentBody: TaggedCommitComments.formatCommentMessage(
+          params.staleCommentMessage,
+          branch,
+          params,
+          params.repo
+        ),
+      });
+    }
+    else {
+      console.log("-> (not notifying because of do-not-notify-authors flag)");
+    }
   }
-
-  console.log(
-    "-> branch was marked stale on " + formatISO(plan.lastCommentTime)
-  );
 
   if (plan.action === "keep stale") {
     console.log("-> branch will be removed on " + formatISO(plan.cutoffTime));
